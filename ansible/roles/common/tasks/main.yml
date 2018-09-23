@@ -1,0 +1,21 @@
+- name: upgrade all packages
+  yum: name=* state=latest
+
+- name: requirements packages
+  yum:
+    name:
+      - vim
+      - telnet
+      - wget
+      - nmap
+      - zip
+      - gcc
+
+- name: set timezone
+  timezone:
+    name: America/Lima
+
+- name: disable sendmail
+  service:
+    name: sendmail
+    enabled: no
