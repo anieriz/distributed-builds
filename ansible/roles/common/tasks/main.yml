@@ -130,6 +130,11 @@
   hostname:
     name: builds.orbis.pe
 
+- name: update hosts file
+  lineinfile:
+    path: /etc/hosts
+    line: '127.0.0.1 localhost localhost.localdomain builds.orbis.pe'
+
 - name: chkconfig jenkins
   service:
     name: jenkins
