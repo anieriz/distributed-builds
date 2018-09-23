@@ -8,10 +8,8 @@ KEY_NAME   = AWS-VPC-019
 envs:
 	$(eval VERSION = $(shell date '+%Y%m%d%H%M'))
 
-clean:
+build: envs
 	rm -rf packer/manifest.json
-
-build: clean envs
 	cd packer/ && packer build \
 	  -var 'subnet_id=$(SUBNET_ID)' \
 	  -var 'ami_name=$(PROJECT)_$(VERSION)' \

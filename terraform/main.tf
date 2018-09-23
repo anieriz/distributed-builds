@@ -68,13 +68,7 @@ resource "aws_instance" "this" {
 
   root_block_device {
     delete_on_termination = true
-    volume_size           = "15"
-    volume_type           = "gp2"
-  }
-  ebs_block_device {
-    device_name           = "/dev/sdf"
-    delete_on_termination = true
-    volume_size           = "${var.volume_size}"
+    volume_size           = 30
     volume_type           = "gp2"
   }
 

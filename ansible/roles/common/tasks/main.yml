@@ -10,6 +10,18 @@
       - nmap
       - zip
       - gcc
+      - nginx
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - java-1.8.0
+      - git
+      - docker
+
+- name: remove the java-7
+  yum:
+    name: java-1.7.0-openjdk
+    state: absent
 
 - name: set timezone
   timezone:
@@ -19,3 +31,106 @@
   service:
     name: sendmail
     enabled: no
+
+- name: copy nginx config
+  copy:
+    src: "{{ role_path }}/files/nginx.conf"
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0755
+
+- name: copy jenkins config
+  copy:
+    src: "{{ role_path }}/files/server.conf"
+    dest: /etc/nginx/conf.d/server.conf
+    owner: root
+    group: root
+    mode: 0755
+
+- name: chkconfig nginx
+  service:
+    name: nginx
+    enabled: yes
+
+- name: chkconfig docker
+  service:
+    name: docker
+    enabled: yes
+
+- name: add the user 'root' to 'docker' group
+  user:
+    name: root
+    groups: docker
+    append: yes
+
+- name: install ansible
+  pip: name=ansible
+
+- name: upgrade awscli
+  pip: name=awscli
+
+- name: create user jenkins
+  user:
+    name: jenkins
+    home: /var/lib/jenkins
+    groups: docker,root
+    append: yes
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+
+- name: download jenkins
+  get_url:
+    url: http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+    dest: /var/lib/jenkins/jenkins.war
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: copy jenkins start
+  copy:
+    src: "{{ role_path }}/files/jenkins.sh"
+    dest: /etc/init.d/jenkins
+    owner: root
+    group: root
+    mode: 0755
+
+- name: copy installer plugins
+  copy:
+    src: "{{ role_path }}/files/installer.sh"
+    dest: /var/lib/jenkins/installer.sh
+    owner: root
+    group: root
+    mode: 0755
+
+- name: download packer
+  get_url:
+    url: https://releases.hashicorp.com/packer/1.3.1/packer_1.3.1_linux_amd64.zip
+    dest: /tmp/packer_1.3.1_linux_amd64.zip
+    mode: 0440
+
+- name: uncompress packer
+  unarchive:
+    src: /tmp/packer_1.3.1_linux_amd64.zip
+    dest: /usr/sbin
+    remote_src: yes
+
+- name: install docker-compose
+  pip: name=docker-compose
+
+- name: symlink docker-compose
+  file:
+    src: /usr/local/bin/docker-compose
+    dest: /usr/bin/docker-compose
+    owner: root
+    group: root
+    state: link
+  
+- name: change hostname
+  hostname:
+    name: builds.orbis.pe
+
+- name: chkconfig jenkins
+  service:
+    name: jenkins
+    enabled: yes

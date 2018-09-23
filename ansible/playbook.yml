@@ -6,6 +6,3 @@
 
     roles:
       - common
-      - volume
-      - nginx
-      - jenkins
