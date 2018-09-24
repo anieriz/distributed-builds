@@ -23,7 +23,8 @@ config:
 	sed -i 's|AWS_REGION|$(AWS_REGION)|g' ansible/roles/jenkins/files/ec2.groovy
 	sed -i 's|AWS_AZ|$(AWS_AZ)|g' ansible/roles/jenkins/files/ec2.groovy
 
-build-master: config version
+build-master: config
+	$(eval VERSION = $(shell cat version.txt))
 	rm -rf packer/master.json
 	cd packer/ && packer build \
 	  -var 'mode=master' \
@@ -33,7 +34,8 @@ build-master: config version
 	  -var 'ami_name=jenkins_master_$(VERSION)' \
 	packer.json
 
-build-workers: version
+build-workers:
+	$(eval VERSION = $(shell cat version.txt))
 	rm -rf packer/workers.json
 	cd packer/ && packer build \
 	  -var 'mode=workers' \
@@ -65,8 +67,9 @@ apply:
 	-auto-approve
 
 install:
-	@make build-all
+	@make date
 	@make security
+	@make build-all
 	@make init
 	@make apply
 
