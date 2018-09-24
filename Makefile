@@ -36,8 +36,8 @@ build-workers: version
 	packer.json
 
 build-all:
-	@make build-master
 	@make build-workers
+	@make build-master
 
 init:
 	export AWS_DEFAULT_REGION="$(AWS_REGION)" && \
