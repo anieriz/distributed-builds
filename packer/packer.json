@@ -1,9 +1,9 @@
 {
     "variables": {
       "mode": "",
-      "region": "ap-northeast-1",
+      "region": "",
       "subnet_id": "",
-      "source_ami": "ami-06cd52961ce9f0d85",
+      "source_ami": "",
       "instance_type": "t2.micro",
       "ssh_username": "ec2-user",
       "ami_name": "",

@@ -24,14 +24,14 @@ def SlaveTemplateUsEast1Parameters = [
   iamInstanceProfile:       '',
   idleTerminationMinutes:   '30',
   initScript:               '',
-  instanceCapStr:           'AWS_DESIRE',
+  instanceCapStr:           'DESIRE_WORKERS',
   jvmopts:                  '',
   labelString:              '',
   launchTimeoutStr:         '',
   numExecutors:             '5',
   remoteAdmin:              'ec2-user',
   remoteFS:                 '',
-  securityGroups:           'AWS_SECURITYGROUPS',
+  securityGroups:           'AWS_SG',
   stopOnTerminate:          false,
   subnetId:                 'AWS_SUBNET',
   tags:                     new EC2Tag('Name', 'jenkins-distributed-workers'),
@@ -41,14 +41,14 @@ def SlaveTemplateUsEast1Parameters = [
   useEphemeralDevices:      true,
   usePrivateDnsName:        true,
   userData:                 '',
-  zone:                     'AWS_REGION'
+  zone:                     'AWS_AZ'
 ]
  
 def AmazonEC2CloudParameters = [
   cloudName:      'workers',
   credentialsId:  '',
-  instanceCapStr: 'AWS_DESIRE',
-  privateKey:     '''AWS_PEM''',
+  instanceCapStr: 'DESIRE_WORKERS',
+  privateKey:     '''''',
   region: 'AWS_REGION',
   useInstanceProfileForCredentials: true
 ]

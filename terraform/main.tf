@@ -2,6 +2,10 @@ provider "aws" {}
 
 data "template_file" "policy" {
   template = "${file("templates/policy.tpl")}"
+  
+  vars {
+    region = "${var.region}"
+  }
 }
 resource "aws_iam_role" "this" {
   name = "${var.project}"
