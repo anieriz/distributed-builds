@@ -25,7 +25,8 @@
                 "ec2:DescribeImages",
                 "ec2:DescribeAvailabilityZones",
                 "ec2:DescribeSecurityGroups",
-                "ec2:DescribeSubnets"
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSpotPriceHistory"
             ],
             "Effect": "Allow",
             "Resource": "*"

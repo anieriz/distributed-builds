@@ -12,7 +12,7 @@ security:
 
 config:
 	$(eval WORKERS_AMI = $(shell cat packer/workers.json | grep artifact_id | cut -d':' -f3 | cut -d'"' -f1))
-	$(eval AWS_SG = $(shell cd terraform/security && terraform output id))
+	$(eval AWS_SG = $(shell cd terraform/security && terraform output name))
 	rm -rf ansible/roles/jenkins/files/ec2.groovy
 	cp -R ansible/roles/jenkins/files/source.ec2.groovy ansible/roles/jenkins/files/ec2.groovy
 	sed -i 's|WORKERS_AMI|$(WORKERS_AMI)|g' ansible/roles/jenkins/files/ec2.groovy
@@ -65,6 +65,7 @@ apply:
 	  -var 'ami=$(MASTER_AMI)' \
 	  -var 'key_name=$(KEY_NAME)' \
 	-auto-approve
+	echo "You need to set the price for your spot instances"
 
 install:
 	@make date

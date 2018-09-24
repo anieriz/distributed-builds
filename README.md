@@ -12,7 +12,7 @@ make install \
   AWS_SUBNET=subnet-dc3d7887 \
   KEY_NAME=AWS-VPC-019 \
   MASTER_TYPE=t2.small \
-  WORKERS_TYPE=t2.small \
+  WORKERS_TYPE=m5.xlarge \
   SOURCE_AMI=ami-06cd52961ce9f0d85 \
   DESIRE_WORKERS=2
 ```
@@ -27,7 +27,7 @@ make purge \
   AWS_SUBNET=subnet-dc3d7887 \
   KEY_NAME=AWS-VPC-019 \
   MASTER_TYPE=t2.small \
-  WORKERS_TYPE=t2.small \
+  WORKERS_TYPE=m5.xlarge \
   SOURCE_AMI=ami-06cd52961ce9f0d85 \
   DESIRE_WORKERS=2
 ```

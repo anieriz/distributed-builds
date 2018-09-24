@@ -86,6 +86,38 @@
     group: jenkins
     mode: 0755
 
+- name: copy config agent remote
+  copy:
+    src: "{{ role_path }}/files/agent.groovy"
+    dest: /var/lib/jenkins/scripts/agent.groovy
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: copy config cli remote
+  copy:
+    src: "{{ role_path }}/files/cli.groovy"
+    dest: /var/lib/jenkins/scripts/cli.groovy
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: copy config create user
+  copy:
+    src: "{{ role_path }}/files/user.groovy"
+    dest: /var/lib/jenkins/scripts/user.groovy
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: copy config csrf
+  copy:
+    src: "{{ role_path }}/files/csrf.groovy"
+    dest: /var/lib/jenkins/scripts/csrf.groovy
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
 - name: install docker-compose
   pip: name=docker-compose
 
