@@ -8,3 +8,7 @@ terraform/.terraform
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/.terraform.tfstate.lock.info
+terraform/security/.terraform
+terraform/security/terraform.tfstate
+terraform/security/terraform.tfstate.backup
+terraform/security/.terraform.tfstate.lock.info

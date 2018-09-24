@@ -15,3 +15,4 @@ variable "volume_size" {
     type = "string"
     default = 30
 }
+variable "security_group" {}

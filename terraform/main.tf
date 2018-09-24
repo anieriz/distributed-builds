@@ -67,7 +67,7 @@ resource "aws_instance" "this" {
   subnet_id               = "${var.subnet_id}"
   key_name                = "${var.key_name}"
   monitoring              = true
-  vpc_security_group_ids  = ["${aws_security_group.this.id}"]
+  vpc_security_group_ids  = ["${var.security_group}"]
   iam_instance_profile    = "${aws_iam_instance_profile.this.name}"
 
   root_block_device {
