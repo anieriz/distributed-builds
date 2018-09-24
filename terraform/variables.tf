@@ -1,3 +1,7 @@
+variable "project" {
+    type = "string"
+    default = "jenkins-distributed-master"
+}
 variable "vpc_id" {}
 variable "subnet_id" {}
 variable "ami" {}

@@ -1,0 +1,117 @@
+- name: requirements packages
+  yum:
+    name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - java-1.8.0
+      - git
+      - docker
+
+- name: remove the java-7
+  yum:
+    name: java-1.7.0-openjdk
+    state: absent
+
+- name: create user jenkins
+  user:
+    name: jenkins
+    home: /var/lib/jenkins
+    groups: docker,root
+    append: yes
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+
+- name: set ownership jenkins home
+  file:
+    path: /var/lib/jenkins
+    owner: jenkins
+    group: jenkins
+
+- name: add the user 'root' to 'docker' group
+  user:
+    name: root
+    groups: docker
+    append: yes
+
+- name: add the user 'jenkins' to 'docker' group
+  user:
+    name: jenkins
+    groups: docker
+    append: yes
+
+- name: install ansible and awscli
+  pip: name={{ item }}
+  with_items:
+    - ansible
+    - awscli
+
+- name: download jenkins
+  get_url:
+    url: http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+    dest: /var/lib/jenkins/jenkins.war
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: create scripts directory
+  file:
+    path: /var/lib/jenkins/scripts
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: copy jenkins start
+  copy:
+    src: "{{ role_path }}/files/jenkins.sh"
+    dest: /etc/init.d/jenkins
+    owner: root
+    group: root
+    mode: 0755
+
+- name: copy installer plugins
+  copy:
+    src: "{{ role_path }}/files/installer.sh"
+    dest: /var/lib/jenkins/scripts/installer.sh
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: copy config cloud aws for workers
+  copy:
+    src: "{{ role_path }}/files/ec2.groovy"
+    dest: /var/lib/jenkins/scripts/ec2.groovy
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: install docker-compose
+  pip: name=docker-compose
+
+- name: symlink docker-compose
+  file:
+    src: /usr/local/bin/docker-compose
+    dest: /usr/bin/docker-compose
+    owner: root
+    group: root
+    state: link
+  
+- name: change hostname
+  hostname:
+    name: builds.orbis.pe
+
+- name: update hosts file
+  lineinfile:
+    path: /etc/hosts
+    line: '127.0.0.1 localhost localhost.localdomain builds.orbis.pe'
+
+- name: chkconfig jenkins
+  service:
+    name: jenkins
+    enabled: yes
+
+- name: chkconfig docker
+  service:
+    name: docker
+    enabled: yes

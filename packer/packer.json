@@ -1,5 +1,6 @@
 {
     "variables": {
+      "mode": "",
       "region": "ap-northeast-1",
       "subnet_id": "",
       "source_ami": "ami-06cd52961ce9f0d85",
@@ -7,7 +8,9 @@
       "ssh_username": "ec2-user",
       "ami_name": "",
       "device_name.0": "/dev/xvda",
-      "volume_size.0": "30"
+      "volume_size.0": "20",
+      "device_name.1": "/dev/sdf",
+      "volume_size.1": "20"
     },
     "builders": [{
       "type": "amazon-ebs",
@@ -23,6 +26,12 @@
           "volume_size": "{{user `volume_size.0`}}",
           "volume_type": "gp2",
           "delete_on_termination": true
+        },
+        {
+          "device_name": "{{user `device_name.1`}}",
+          "volume_size": "{{user `volume_size.1`}}",
+          "volume_type": "gp2",
+          "delete_on_termination": true
         }
       ],
       "ami_block_device_mappings": [
@@ -31,18 +40,27 @@
           "volume_size": "{{user `volume_size.0`}}",
           "volume_type": "gp2",
           "delete_on_termination": true
+        },
+        {
+          "device_name": "{{user `device_name.1`}}",
+          "volume_size": "{{user `volume_size.1`}}",
+          "volume_type": "gp2",
+          "delete_on_termination": true
         }
       ]
     }],
   
     "provisioners": [{
       "type": "ansible",
-      "playbook_file": "../ansible/playbook.yml"
+      "playbook_file": "../ansible/playbook.yml",
+      "extra_arguments": [
+        "--tags", "default,{{user `mode`}}"
+      ]
     }],
     "post-processors": [
       {
         "type": "manifest",
-        "output": "manifest.json"
+        "output": "{{user `mode`}}.json"
       }
     ]
   }

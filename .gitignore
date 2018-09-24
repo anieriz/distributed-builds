@@ -1,5 +1,9 @@
+key.pem
 ansible/playbook.retry
+ansible/roles/jenkins/files/ec2.groovy
 packer/manifest.json
+packer/master.json
+packer/workers.json
 terraform/.terraform
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup

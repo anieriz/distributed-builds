@@ -5,4 +5,8 @@
     become_method: sudo
 
     roles:
-      - common
+      - { role: common, tags: ["default"] }
+      - { role: volume, tags: ["default"] }
+      - { role: nginx, tags: ["master"] }
+      - { role: jenkins, tags: ["master"] }
+      - { role: workers, tags: ["workers"] }

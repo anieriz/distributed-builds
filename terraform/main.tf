@@ -4,7 +4,7 @@ data "template_file" "policy" {
   template = "${file("templates/policy.tpl")}"
 }
 resource "aws_iam_role" "this" {
-  name = "jenkins-distributed-build"
+  name = "${var.project}"
 
   assume_role_policy = <<EOF
 {
@@ -23,17 +23,17 @@ resource "aws_iam_role" "this" {
 EOF
 }
 resource "aws_iam_role_policy" "this" {
-  name   = "jenkins-distributed-build"
+  name   = "${var.project}"
   role   = "${aws_iam_role.this.id}"
   policy = "${data.template_file.policy.rendered}"
 }
 resource "aws_iam_instance_profile" "this" {
-  name = "jenkins-distributed-build"
+  name = "${var.project}"
   role = "${aws_iam_role.this.name}"
 }
 
 resource "aws_security_group" "this" {
-  name        = "jenkins-distributed-build"
+  name        = "${var.project}"
   description = "firewall for jenkins"
   vpc_id      = "${var.vpc_id}"
 
@@ -71,8 +71,14 @@ resource "aws_instance" "this" {
     volume_size           = 30
     volume_type           = "gp2"
   }
+  ebs_block_device {
+    device_name           = "/dev/sdf"
+    delete_on_termination = true
+    volume_size           = 30
+    volume_type           = "gp2"
+  }
 
   tags {
-    Name     = "jenkins-distributed-build"
+    Name     = "${var.project}"
   }
 }
