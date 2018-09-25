@@ -13,7 +13,7 @@ import jenkins.model.Jenkins
  
 // parameters
 def SlaveTemplateUsEast1Parameters = [
-  ami:                      'ami-0f99209f903d0f1a6',
+  ami:                      '',
   associatePublicIp:        false,
   connectBySSHProcess:      true,
   connectUsingPublicIp:     false,
@@ -36,7 +36,7 @@ def SlaveTemplateUsEast1Parameters = [
   subnetId:                 'subnet-dc3d7887',
   tags:                     new EC2Tag('Name', 'jenkins-distributed-workers'),
   tmpDir:                   '/var/lib/jenkins',
-  type:                     'm5.xlarge',
+  type:                     'r4.xlarge',
   useDedicatedTenancy:      false,
   useEphemeralDevices:      true,
   usePrivateDnsName:        true,

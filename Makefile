@@ -46,7 +46,7 @@ build-workers:
 	packer.json
 
 build-all:
-	# @make build-workers
+	@make build-workers
 	@make build-master
 
 init:
@@ -74,7 +74,7 @@ install:
 	@make init
 	@make apply
 
-purge:
+clear:
 	$(eval MASTER_AMI = $(shell cat packer/master.json | grep artifact_id | cut -d':' -f3 | cut -d'"' -f1))
 	$(eval AWS_SG = $(shell cd terraform/security && terraform output id))
 	export AWS_DEFAULT_REGION="$(AWS_REGION)" && \
