@@ -1,12 +1,8 @@
 - name: requirements packages
   yum:
     name:
-      - yum-utils
-      - device-mapper-persistent-data
-      - lvm2
       - java-1.8.0
       - git
-      - docker
 
 - name: remove the java-7
   yum:
@@ -17,8 +13,6 @@
   user:
     name: jenkins
     home: /var/lib/jenkins
-    groups: docker,root
-    append: yes
     generate_ssh_key: yes
     ssh_key_bits: 2048
 
@@ -27,24 +21,6 @@
     path: /var/lib/jenkins
     owner: jenkins
     group: jenkins
-
-- name: add the user 'root' to 'docker' group
-  user:
-    name: root
-    groups: docker
-    append: yes
-
-- name: add the user 'jenkins' to 'docker' group
-  user:
-    name: jenkins
-    groups: docker
-    append: yes
-
-- name: install ansible and awscli
-  pip: name={{ item }}
-  with_items:
-    - ansible
-    - awscli
 
 - name: download jenkins
   get_url:
@@ -86,18 +62,10 @@
     group: jenkins
     mode: 0755
 
-- name: copy config agent remote
+- name: copy config jenins
   copy:
-    src: "{{ role_path }}/files/agent.groovy"
-    dest: /var/lib/jenkins/scripts/agent.groovy
-    owner: jenkins
-    group: jenkins
-    mode: 0755
-
-- name: copy config cli remote
-  copy:
-    src: "{{ role_path }}/files/cli.groovy"
-    dest: /var/lib/jenkins/scripts/cli.groovy
+    src: "{{ role_path }}/files/config.groovy"
+    dest: /var/lib/jenkins/scripts/config.groovy
     owner: jenkins
     group: jenkins
     mode: 0755
@@ -110,25 +78,6 @@
     group: jenkins
     mode: 0755
 
-- name: copy config csrf
-  copy:
-    src: "{{ role_path }}/files/csrf.groovy"
-    dest: /var/lib/jenkins/scripts/csrf.groovy
-    owner: jenkins
-    group: jenkins
-    mode: 0755
-
-- name: install docker-compose
-  pip: name=docker-compose
-
-- name: symlink docker-compose
-  file:
-    src: /usr/local/bin/docker-compose
-    dest: /usr/bin/docker-compose
-    owner: root
-    group: root
-    state: link
-  
 - name: change hostname
   hostname:
     name: builds.orbis.pe
@@ -141,9 +90,4 @@
 - name: chkconfig jenkins
   service:
     name: jenkins
-    enabled: yes
-
-- name: chkconfig docker
-  service:
-    name: docker
     enabled: yes

@@ -8,5 +8,6 @@
       - { role: common, tags: ["default"] }
       - { role: volume, tags: ["default"] }
       - { role: nginx, tags: ["master"] }
-      - { role: jenkins, tags: ["master"] }
+      - { role: master, tags: ["master"] }
       - { role: workers, tags: ["workers"] }
+      - { role: utils, tags: ["default"] }

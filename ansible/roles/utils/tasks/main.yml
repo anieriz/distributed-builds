@@ -1,0 +1,40 @@
+- name: requirements packages
+  yum:
+    name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - docker
+
+- name: add the user 'root' to 'docker' group
+  user:
+    name: root
+    groups: docker
+    append: yes
+
+- name: add the user 'jenkins' to 'docker' group
+  user:
+    name: jenkins
+    groups: docker
+    append: yes
+
+- name: install awscli
+  pip: name={{ item }}
+  with_items:
+    - awscli
+
+- name: install docker-compose
+  pip: name=docker-compose
+
+- name: symlink docker-compose
+  file:
+    src: /usr/local/bin/docker-compose
+    dest: /usr/bin/docker-compose
+    owner: root
+    group: root
+    state: link
+  
+- name: chkconfig docker
+  service:
+    name: docker
+    enabled: yes

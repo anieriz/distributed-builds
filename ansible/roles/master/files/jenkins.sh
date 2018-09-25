@@ -16,7 +16,7 @@ case $1 in
         echo "" > /var/log/builds.orbis.pe.log
         chown jenkins:jenkins /var/log/builds.orbis.pe.log
         su jenkins -c "/usr/bin/java -Djenkins.install.runSetupWizard=false -jar /var/lib/jenkins/jenkins.war -Duser.timezone=America/Lima --httpListenAddress=127.0.0.1 --httpPort=8090 --logfile=/var/log/builds.orbis.pe.log &"
-        sleep 15s
+        sleep 20s
         sh /var/lib/jenkins/scripts/installer.sh
         sed -i '/installer/d' /etc/init.d/jenkins
         ;;

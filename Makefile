@@ -13,15 +13,15 @@ security:
 config:
 	$(eval WORKERS_AMI = $(shell cat packer/workers.json | grep artifact_id | cut -d':' -f3 | cut -d'"' -f1))
 	$(eval AWS_SG = $(shell cd terraform/security && terraform output name))
-	rm -rf ansible/roles/jenkins/files/ec2.groovy
-	cp -R ansible/roles/jenkins/files/source.ec2.groovy ansible/roles/jenkins/files/ec2.groovy
-	sed -i 's|WORKERS_AMI|$(WORKERS_AMI)|g' ansible/roles/jenkins/files/ec2.groovy
-	sed -i 's|WORKERS_TYPE|$(WORKERS_TYPE)|g' ansible/roles/jenkins/files/ec2.groovy
-	sed -i 's|DESIRE_WORKERS|$(DESIRE_WORKERS)|g' ansible/roles/jenkins/files/ec2.groovy
-	sed -i 's|AWS_SG|$(AWS_SG)|g' ansible/roles/jenkins/files/ec2.groovy
-	sed -i 's|AWS_SUBNET|$(AWS_SUBNET)|g' ansible/roles/jenkins/files/ec2.groovy
-	sed -i 's|AWS_REGION|$(AWS_REGION)|g' ansible/roles/jenkins/files/ec2.groovy
-	sed -i 's|AWS_AZ|$(AWS_AZ)|g' ansible/roles/jenkins/files/ec2.groovy
+	rm -rf ansible/roles/master/files/ec2.groovy
+	cp -R ansible/roles/master/files/cloud.groovy ansible/roles/master/files/ec2.groovy
+	sed -i 's|WORKERS_AMI|$(WORKERS_AMI)|g' ansible/roles/master/files/ec2.groovy
+	sed -i 's|WORKERS_TYPE|$(WORKERS_TYPE)|g' ansible/roles/master/files/ec2.groovy
+	sed -i 's|DESIRE_WORKERS|$(DESIRE_WORKERS)|g' ansible/roles/master/files/ec2.groovy
+	sed -i 's|AWS_SG|$(AWS_SG)|g' ansible/roles/master/files/ec2.groovy
+	sed -i 's|AWS_SUBNET|$(AWS_SUBNET)|g' ansible/roles/master/files/ec2.groovy
+	sed -i 's|AWS_REGION|$(AWS_REGION)|g' ansible/roles/master/files/ec2.groovy
+	sed -i 's|AWS_AZ|$(AWS_AZ)|g' ansible/roles/master/files/ec2.groovy
 
 build-master: config
 	$(eval VERSION = $(shell cat version.txt))
@@ -46,7 +46,7 @@ build-workers:
 	packer.json
 
 build-all:
-	@make build-workers
+	# @make build-workers
 	@make build-master
 
 init:

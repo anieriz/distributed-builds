@@ -113,12 +113,10 @@ wget https://updates.jenkins.io/latest/workflow-aggregator.hpi
 
 java -jar /var/lib/jenkins/war/WEB-INF/jenkins-cli.jar -s http://127.0.0.1:8090 safe-restart >> /var/log/builds.orbis.pe.log
 echo "install success" >> /var/log/builds.orbis.pe.log
-sleep 20s
+sleep 25s
 
 cd /var/lib/jenkins/scripts
-curl --data-urlencode "script=$(< ./agent.groovy)" http://127.0.0.1:8090/scriptText >> /var/log/builds.orbis.pe.log
 curl --data-urlencode "script=$(< ./ec2.groovy)" http://127.0.0.1:8090/scriptText >> /var/log/builds.orbis.pe.log
-curl --data-urlencode "script=$(< ./cli.groovy)" http://127.0.0.1:8090/scriptText >> /var/log/builds.orbis.pe.log
-curl --data-urlencode "script=$(< ./csrf.groovy)" http://127.0.0.1:8090/scriptText >> /var/log/builds.orbis.pe.log
+curl --data-urlencode "script=$(< ./config.groovy)" http://127.0.0.1:8090/scriptText >> /var/log/builds.orbis.pe.log
 curl --data-urlencode "script=$(< ./user.groovy)" http://127.0.0.1:8090/scriptText >> /var/log/builds.orbis.pe.log
 echo "config success" >> /var/log/builds.orbis.pe.log
