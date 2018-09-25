@@ -1,4 +1,4 @@
-![IMAGE](docs/img/logo.png)
+![IMAGE](docs/img/logo_01.png)
 
 # Jenkins - Distributed Builds
 

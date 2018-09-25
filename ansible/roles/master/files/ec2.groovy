@@ -13,7 +13,7 @@ import jenkins.model.Jenkins
  
 // parameters
 def SlaveTemplateUsEast1Parameters = [
-  ami:                      '',
+  ami:                      'ami-0096ef1464fd8cc9b',
   associatePublicIp:        false,
   connectBySSHProcess:      true,
   connectUsingPublicIp:     false,
