@@ -12,9 +12,11 @@ Offical documentation is in the [docs](https://github.com/kubernetes/kops/blob/m
 
 ## Prerequisite
 
-`packer` is required, see [here](https://www.packer.io/intro/getting-started/install.html)
-`ansible` is required, see [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
-`terraform` is required, see [here](https://www.terraform.io/intro/getting-started/install.html)
+`packer` is required, see [here](https://www.packer.io/intro/getting-started/install.html).
+
+`ansible` is required, see [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
+
+`terraform` is required, see [here](https://www.terraform.io/intro/getting-started/install.html).
 
 
 ## Quickstart
